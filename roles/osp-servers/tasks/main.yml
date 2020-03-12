@@ -18,7 +18,6 @@
       cat /tmp/openstack.pub >> /home/cloud-user/.ssh/authorized_keys
       curl -o /tmp/internal.repo http://www.opentlc.com/download/ansible_bootcamp/repo/internal.repo
       cp /tmp/internal.repo /etc/yum.repos.d/internal.repo
-  register: instanceip
   with_subelements:
     - "{{ osp_servers }}"
     - meta
@@ -34,15 +33,25 @@
     network: ext_network
     wait: true
     timeout: 180
-  register: instancefloatingip
   with_dict: "{{ osp_servers }}"
   tags:
   - hw.servers
 
+- name: Get list of Servers
+  os_server_facts:
+    cloud: ospcloud
+  register: result
+  tags:
+    - hw.servers
+
 - name: Wait for server to be available
   wait_for:
-    host: "{{ instancefloatingip.ansible_facts.openstack_servers.public_v4 }}"
+    host: "{{ item.public_v4 }}"
     port: 22
     search_regex: OpenSSH
     timeout: 600
   delegate_to: "{{ inventory_hostname }}"
+  with_items:
+    - "{{ result.ansible_facts.openstack_servers }}"
+  tags:
+    - hw.servers
