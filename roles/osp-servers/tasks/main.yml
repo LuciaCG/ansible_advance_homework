@@ -41,7 +41,7 @@
 
 - name: Wait for server to be available
   wait_for:
-    host: "{{ instancefloatingip.floating_ip.floating_ip_address }}"
+    host: "{{ instancefloatingip.ansible_facts.openstack_servers.public_v4 }}"
     port: 22
     search_regex: OpenSSH
     timeout: 600
