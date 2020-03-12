@@ -6,7 +6,7 @@
     cloud: ospcloud
     name: "{{ item.value.name }}"
     image: "{{ item.value.image }}"
-    state: "{{ item.value.state }}""
+    state: "{{ item.value.state }}"
     meta: "{{ item.value.meta }}"
     flavor: "{{ item.value.flavor }}"
     security_groups: "{{ item.value.security_group }}"
