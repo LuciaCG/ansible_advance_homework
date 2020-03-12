@@ -1,5 +1,4 @@
 ---
-
 # tasks file for osp.servers
 - name: Create new server instances and attaches them a network and passes metadata to the instance
   os_server:
@@ -9,7 +8,7 @@
     state: "{{ item.0.state }}"
     meta: "{{ item.1 }}"
     flavor: "{{ item.0.flavor }}"
-    security_groups: "{{ item.value.security_group }}"
+    security_groups: "{{ item.0.security_group }}"
     key_name: "{{ item.0.key_name }}"
     nics:
     - net-name: int_network
@@ -24,7 +23,7 @@
     - "{{ osp_servers }}"
     - meta
   tags:
-  - hw.servers
+    - hw.servers
 
 - name: Add floating IP to Servers
   os_floating_ip:
