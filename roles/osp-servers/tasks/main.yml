@@ -5,24 +5,24 @@
     cloud: ospcloud
     name: "{{ item.0.name }}"
     image: "{{ item.0.image }}"
-    state: "{{ item.0.state }}"
     meta: "{{ item.1 }}"
     flavor: "{{ item.0.flavor }}"
     security_groups: "{{ item.0.security_group }}"
     key_name: "{{ item.0.key_name }}"
     nics:
-    - net-name: int_network
+      - net-name: int_network
     userdata: |
       #!/bin/bash
       curl -o /tmp/openstack.pub http://www.opentlc.com/download/ansible_bootcamp/openstack_keys/openstack.pub
       cat /tmp/openstack.pub >> /home/cloud-user/.ssh/authorized_keys
       curl -o /tmp/internal.repo http://www.opentlc.com/download/ansible_bootcamp/repo/internal.repo
       cp /tmp/internal.repo /etc/yum.repos.d/internal.repo
+  register: instanceip
+  tags:
+    - hw.servers
   with_subelements:
     - "{{ osp_servers }}"
     - meta
-  tags:
-    - hw.servers
 
 - name: Add floating IP to Servers
   os_floating_ip:
@@ -33,9 +33,10 @@
     network: ext_network
     wait: true
     timeout: 180
-  with_dict: "{{ osp_servers }}"
   tags:
-  - hw.servers
+    - hw.servers
+  register: instancefloatingip
+  with_dict: "{{ osp_servers }}"
 
 - name: Get list of Servers
   os_server_facts:
