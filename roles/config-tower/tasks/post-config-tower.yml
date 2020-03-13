@@ -4,10 +4,6 @@
     name: "{{ proj_name }}"
     description: "Homework Assignment project"
     organization: "{{org_name}}"
-    state: present
-    tower_host: tower1.{{tower_GUID}}.example.opentlc.com
-    tower_username: admin
-    tower_password: r3dh4t1!
     scm_type: git
     scm_url: "{{ github_repo }}"
 
@@ -51,7 +47,7 @@
     tower_password: r3dh4t1!
     tower_verify_ssl: no
     ssh_key_data: "/root/.ssh/mykey.pem"
-    ssh_key_unlock: " {{ ssh_PASS }}"
+    ssh_key_unlock: "{{ ssh_PASS }}"
     username: "{{ opentlc_login }}"
 
 - name: Remove secret
