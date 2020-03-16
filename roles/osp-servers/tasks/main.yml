@@ -56,3 +56,12 @@
     - "{{ result.ansible_facts.openstack_servers }}"
   tags:
     - hw.servers
+
+- name: Add Host
+  add_host:
+    name: "{{ item.public_v4 }}"
+    group:
+      - "{{ item.metadata.group }}"
+      - "{{ item.metadata.deployment_name }}"
+  loop: "{{ result.ansible_facts.openstack_servers }}"
+

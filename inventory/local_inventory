@@ -1,0 +1,9 @@
+[localhost]
+localhost
+
+[workstation]
+workstation-e096.rhpds.opentlc.com
+
+[all:vars]
+ansible_user=cloud-user
+ansible_ssh_private_key_file=/root/.ssh/openstack.pem
